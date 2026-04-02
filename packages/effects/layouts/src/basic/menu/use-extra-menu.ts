@@ -3,24 +3,24 @@ import type { ComputedRef } from 'vue';
 import type { MenuRecordRaw } from '@vben/types';
 
 import { computed, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 
 import { preferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
 import { findRootMenuByPath } from '@vben/utils';
 
+import { useMenuContentRoute } from '../../hooks';
 import { useNavigation } from './use-navigation';
 
 function useExtraMenu(useRootMenus?: ComputedRef<MenuRecordRaw[]>) {
   const accessStore = useAccessStore();
   const { navigation, willOpenedByWindow } = useNavigation();
+  const { menuContentRoute } = useMenuContentRoute();
 
   const menus = computed(() => useRootMenus?.value ?? accessStore.accessMenus);
 
   /** 记录当前顶级菜单下哪个子菜单最后激活 */
   const defaultSubMap = new Map<string, string>();
   const extraRootMenus = ref<MenuRecordRaw[]>([]);
-  const route = useRoute();
   const extraMenus = ref<MenuRecordRaw[]>([]);
   const sidebarExtraVisible = ref<boolean>(false);
   const extraActiveMenu = ref('');
@@ -80,7 +80,7 @@ function useExtraMenu(useRootMenus?: ComputedRef<MenuRecordRaw[]>) {
 
     const { findMenu, rootMenu, rootMenuPath } = findRootMenuByPath(
       menus.value,
-      route.path,
+      menuContentRoute.value.path,
     );
     extraActiveMenu.value = rootMenuPath ?? findMenu?.path ?? '';
     extraMenus.value = rootMenu?.children ?? [];
@@ -96,7 +96,7 @@ function useExtraMenu(useRootMenus?: ComputedRef<MenuRecordRaw[]>) {
   };
 
   function calcExtraMenus(path: string) {
-    const currentPath = route.meta?.activePath || path;
+    const currentPath = menuContentRoute.value.meta?.activePath || path;
     const { findMenu, rootMenu, rootMenuPath } = findRootMenuByPath(
       menus.value,
       currentPath,
@@ -112,7 +112,7 @@ function useExtraMenu(useRootMenus?: ComputedRef<MenuRecordRaw[]>) {
   }
 
   watch(
-    () => [route.path, preferences.app.layout],
+    () => [menuContentRoute.value.path, preferences.app.layout],
     ([path]) => {
       calcExtraMenus(path || '');
     },

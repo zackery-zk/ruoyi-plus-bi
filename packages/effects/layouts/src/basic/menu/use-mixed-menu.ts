@@ -1,18 +1,18 @@
 import type { MenuRecordRaw } from '@vben/types';
 
 import { computed, onBeforeMount, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 
 import { preferences, usePreferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
 import { findRootMenuByPath } from '@vben/utils';
 
+import { useMenuContentRoute } from '../../hooks';
 import { useNavigation } from './use-navigation';
 
 function useMixedMenu() {
   const { navigation, willOpenedByWindow } = useNavigation();
   const accessStore = useAccessStore();
-  const route = useRoute();
+  const { menuContentRoute } = useMenuContentRoute();
   const splitSideMenus = ref<MenuRecordRaw[]>([]);
   const rootMenuPath = ref<string>('');
   const mixedRootMenuPath = ref<string>('');
@@ -66,6 +66,7 @@ function useMixedMenu() {
    * 侧边菜单激活路径
    */
   const sidebarActive = computed(() => {
+    const route = menuContentRoute.value;
     return (route?.meta?.activePath as string) ?? route.path;
   });
 
@@ -73,6 +74,7 @@ function useMixedMenu() {
    * 头部菜单激活路径
    */
   const headerActive = computed(() => {
+    const route = menuContentRoute.value;
     if (!needSplit.value) {
       return route.meta?.activePath ?? route.path;
     }
@@ -125,7 +127,7 @@ function useMixedMenu() {
    * 计算侧边菜单
    * @param path 路由路径
    */
-  function calcSideMenus(path: string = route.path) {
+  function calcSideMenus(path: string = menuContentRoute.value.path) {
     let { rootMenu } = findRootMenuByPath(menus.value, path);
     if (!rootMenu) {
       rootMenu = menus.value.find((item) => item.path === path);
@@ -138,8 +140,9 @@ function useMixedMenu() {
   }
 
   watch(
-    () => route.path,
+    () => menuContentRoute.value.path,
     (path) => {
+      const route = menuContentRoute.value;
       const currentPath = route?.meta?.activePath ?? route?.meta?.link ?? path;
       if (willOpenedByWindow(currentPath)) {
         return;
@@ -153,6 +156,7 @@ function useMixedMenu() {
 
   // 初始化计算侧边菜单
   onBeforeMount(() => {
+    const route = menuContentRoute.value;
     calcSideMenus(route.meta?.activePath || route.path);
   });
 

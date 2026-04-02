@@ -8,6 +8,8 @@ import { computed } from 'vue';
 
 import { preferences, usePreferences } from '@vben/preferences';
 
+export * from './use-menu-content-route';
+
 /**
  * 转换组件，自动添加 name
  * @param component

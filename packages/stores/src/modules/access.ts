@@ -19,6 +19,8 @@ interface AccessState {
    * 可访问的路由列表
    */
   accessRoutes: RouteRecordRaw[];
+  menuContentRouteFullPath: null | string;
+  menuSwitchByComponent: boolean;
   /**
    * 登录 accessToken
    */
@@ -82,6 +84,12 @@ export const useAccessStore = defineStore('core-access', {
     setAccessRoutes(routes: RouteRecordRaw[]) {
       this.accessRoutes = routes;
     },
+    setMenuContentRouteFullPath(fullPath: null | string) {
+      this.menuContentRouteFullPath = fullPath;
+    },
+    setMenuSwitchByComponent(enabled: boolean) {
+      this.menuSwitchByComponent = enabled;
+    },
     setAccessToken(token: AccessToken) {
       this.accessToken = token;
     },
@@ -113,6 +121,8 @@ export const useAccessStore = defineStore('core-access', {
     accessCodes: [],
     accessMenus: [],
     accessRoutes: [],
+    menuContentRouteFullPath: null,
+    menuSwitchByComponent: false,
     accessToken: null,
     isAccessChecked: false,
     isLockScreen: false,

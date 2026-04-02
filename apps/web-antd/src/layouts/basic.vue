@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed, h, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, h, onBeforeUnmount, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
 import { VBEN_DOC_URL, VBEN_GITHUB_URL } from '@vben/constants';
@@ -30,6 +30,7 @@ const userStore = useUserStore();
 const authStore = useAuthStore();
 const accessStore = useAccessStore();
 const router = useRouter();
+const route = useRoute();
 const { destroyWatermark, updateWatermark } = useWatermark();
 
 const tenantStore = useTenantStore();
@@ -90,6 +91,21 @@ const menus = computed(() => {
 
 const avatar = computed(() => {
   return userStore.userInfo?.avatar || preferences.app.defaultAvatar;
+});
+
+accessStore.setMenuSwitchByComponent(true);
+
+watch(
+  () => route.fullPath,
+  (fullPath) => {
+    accessStore.setMenuContentRouteFullPath(fullPath);
+  },
+  { immediate: true },
+);
+
+onBeforeUnmount(() => {
+  accessStore.setMenuSwitchByComponent(false);
+  accessStore.setMenuContentRouteFullPath(null);
 });
 
 async function handleLogout() {

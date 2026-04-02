@@ -32,6 +32,8 @@
     "@antdv-next/happy-work-theme": "catalog:",
     "@antdv-next/icons": "catalog:",
     "@tinymce/tinymce-vue": "catalog:",
+    "@vben-core/shadcn-ui":"workspace:*",
+    "@vben-core/tabs-ui": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",

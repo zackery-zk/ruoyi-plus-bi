@@ -5,7 +5,8 @@ import type { NormalMenuProps } from '@vben-core/menu-ui';
 import { findMenuByPath } from '@vben/utils';
 import { NormalMenu } from '@vben-core/menu-ui';
 import { onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+
+import { useMenuContentRoute } from '../../hooks';
 
 interface Props extends NormalMenuProps {}
 
@@ -17,10 +18,10 @@ const emit = defineEmits<{
   select: [MenuRecordRaw];
 }>();
 
-const route = useRoute();
+const { menuContentRoute } = useMenuContentRoute();
 
 onBeforeMount(() => {
-  const menu = findMenuByPath(props.menus || [], route.path);
+  const menu = findMenuByPath(props.menus || [], menuContentRoute.value.path);
   if (menu) {
     const rootMenu = (props.menus || []).find(
       (item) => item.path === menu.parents?.[0],

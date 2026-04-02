@@ -43,4 +43,17 @@ describe('useAccessStore', () => {
     store.setAccessRoutes([]);
     expect(store.accessRoutes).toEqual([]);
   });
+
+  it('tracks the menu-driven content route state', () => {
+    const store = useAccessStore();
+
+    expect(store.menuSwitchByComponent).toBe(false);
+    expect(store.menuContentRouteFullPath).toBeNull();
+
+    store.setMenuSwitchByComponent(true);
+    store.setMenuContentRouteFullPath('/system/menu');
+
+    expect(store.menuSwitchByComponent).toBe(true);
+    expect(store.menuContentRouteFullPath).toBe('/system/menu');
+  });
 });

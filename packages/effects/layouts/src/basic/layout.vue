@@ -4,8 +4,7 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
 import type { MenuRecordRaw } from '@vben/types';
 
-import { computed, onMounted, useSlots, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, useSlots, watch } from 'vue';
 
 import { useRefresh } from '@vben/hooks';
 import { $t, i18n } from '@vben/locales';
@@ -33,6 +32,7 @@ import {
   useMixedMenu,
 } from './menu';
 import { LayoutTabbar } from './tabbar';
+import { useMenuContentRoute } from '../hooks';
 
 defineOptions({ name: 'BasicLayout' });
 
@@ -174,11 +174,15 @@ function autoCollapseMenuByRouteMeta(route: RouteLocationNormalizedLoaded) {
   }
 }
 
-const route = useRoute();
+const { menuContentRoute } = useMenuContentRoute();
 
-onMounted(() => {
-  autoCollapseMenuByRouteMeta(route);
-});
+watch(
+  () => menuContentRoute.value.fullPath,
+  () => {
+    autoCollapseMenuByRouteMeta(menuContentRoute.value);
+  },
+  { immediate: true },
+);
 
 watch(
   () => preferences.app.layout,

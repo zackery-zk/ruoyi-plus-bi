@@ -3,10 +3,9 @@ import type { MenuRecordRaw } from '@vben/types';
 
 import type { MenuProps } from '@vben-core/menu-ui';
 
-import { useRoute } from 'vue-router';
-
 import { Menu } from '@vben-core/menu-ui';
 
+import { useMenuContentRoute } from '../../hooks';
 import { useNavigation } from './use-navigation';
 
 interface Props extends MenuProps {
@@ -19,7 +18,7 @@ withDefaults(defineProps<Props>(), {
   menus: () => [],
 });
 
-const route = useRoute();
+const { menuContentRoute } = useMenuContentRoute();
 const { navigation } = useNavigation();
 
 async function handleSelect(key: string) {
@@ -31,7 +30,7 @@ async function handleSelect(key: string) {
   <Menu
     :accordion="accordion"
     :collapse="collapse"
-    :default-active="route.meta?.activePath || route.path"
+    :default-active="menuContentRoute.meta?.activePath || menuContentRoute.path"
     :menus="menus"
     :rounded="rounded"
     :theme="theme"

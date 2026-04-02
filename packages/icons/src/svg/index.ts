@@ -17,6 +17,15 @@ const SvgWechatIcon = createIconifyIcon('svg:wechat');
 const SvgQQIcon = createIconifyIcon('svg:qq');
 const SvgSnailJobIcon = createIconifyIcon('svg:snail-job');
 
+
+const SvgResFolderIcon = createIconifyIcon('svg:folder');
+const SvgResDataSourceRootIcon = createIconifyIcon('svg:datasource-root');
+const SvgResDataSourceIcon = createIconifyIcon('svg:datasource');
+
+
+const SvgDsLibMysqlIcon = createIconifyIcon('svg:mysql');
+
+
 export {
   SvgAntdvLogoIcon,
   SvgAvatar1Icon,
@@ -27,8 +36,12 @@ export {
   SvgCakeIcon,
   SvgCardIcon,
   SvgDownloadIcon,
+  SvgDsLibMysqlIcon,
   SvgMaxKeyIcon,
   SvgQQIcon,
+  SvgResDataSourceIcon,
+  SvgResDataSourceRootIcon,
+  SvgResFolderIcon,
   SvgSnailJobIcon,
   SvgTopiamIcon,
   SvgWechatIcon,

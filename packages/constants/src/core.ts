@@ -69,3 +69,14 @@ export const YesNo = {
   Yes: 'Y',
   No: 'N',
 } as const;
+
+
+
+export enum TabEventTypeEnum {
+  NEW_DATASOURCE='NEW_DATASOURCE'
+}
+
+
+export const TabModuleKey={
+  DATASOURCE:'datasource'
+}

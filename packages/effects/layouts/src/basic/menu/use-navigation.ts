@@ -2,11 +2,16 @@ import type { RouteRecordNormalized } from 'vue-router';
 
 import { useRouter } from 'vue-router';
 
+import { useAccessStore } from '@vben/stores';
 import { isHttpUrl, openRouteInNewWindow, openWindow } from '@vben/utils';
 
+import { useMenuContentRoute } from '../../hooks';
+
 function useNavigation() {
+  const accessStore = useAccessStore();
   const router = useRouter();
   const routeMetaMap = new Map<string, RouteRecordNormalized>();
+  const { setMenuContentRoute } = useMenuContentRoute();
 
   // 初始化路由映射
   const initRouteMetaMap = () => {
@@ -52,6 +57,11 @@ function useNavigation() {
         openWindow(path, { target: '_blank' });
       } else if (openInNewWindow) {
         openRouteInNewWindow(resolveHref(path));
+      } else if (accessStore.menuSwitchByComponent) {
+        await setMenuContentRoute({
+          path,
+          query,
+        });
       } else {
         await router.push({
           path,

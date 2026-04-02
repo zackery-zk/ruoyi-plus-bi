@@ -60,6 +60,7 @@ export const overridesPreferences = defineOverridesPreferences({
     enable: false,
   },
   tabbar: {
+    enable: false,
     /**
      * 标签tab 持久化 关闭
      */

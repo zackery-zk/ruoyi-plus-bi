@@ -5,7 +5,9 @@ import type { IBreadcrumb } from '@vben-core/shadcn-ui';
 import { $t } from '@vben/locales';
 import { VbenBreadcrumbView } from '@vben-core/shadcn-ui';
 import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+
+import { useMenuContentRoute } from '../hooks';
+import { useNavigation } from '../basic/menu/use-navigation';
 
 interface Props {
   hideWhenOnlyOne?: boolean;
@@ -20,10 +22,11 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'normal',
 });
 
-const route = useRoute();
-const router = useRouter();
+const { menuContentRoute } = useMenuContentRoute();
+const { navigation } = useNavigation();
 
 const breadcrumbs = computed((): IBreadcrumb[] => {
+  const route = menuContentRoute.value;
   const matched = route.matched;
 
   const resultBreadcrumb: IBreadcrumb[] = [];
@@ -57,7 +60,7 @@ const breadcrumbs = computed((): IBreadcrumb[] => {
 });
 
 function handleSelect(path: string) {
-  router.push(path);
+  navigation(path);
 }
 </script>
 <template>
