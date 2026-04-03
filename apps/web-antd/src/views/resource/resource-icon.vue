@@ -22,7 +22,8 @@ interface Props {
       <template
         v-if="
           resType === ResourceTypeEnum.FOLDER ||
-          resType === ResourceTypeEnum.PUBLIC_FOLDER
+          resType === ResourceTypeEnum.PUBLIC_FOLDER ||
+           resType === ResourceTypeEnum.SELF_FOLDER
         "
       >
         <SvgResFolderIcon v-bind="$attrs" />

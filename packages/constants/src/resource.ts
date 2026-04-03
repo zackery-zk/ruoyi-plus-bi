@@ -44,6 +44,15 @@ export const ResourceTypeOptions = [
     label: '基础表',
   },
   {
+    value: ResourceTypeEnum.BASIC_FIELD,
+    label: '字段',
+  },
+  {
+    value: ResourceTypeEnum.SELF_FOLDER,
+    label: '我的空间',
+  },
+
+  {
     value: ResourceTypeEnum.PUBLIC_FOLDER,
     label: '公共目录',
   },

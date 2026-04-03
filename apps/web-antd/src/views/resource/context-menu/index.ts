@@ -53,7 +53,7 @@ export function calculateOperationPermissions(
 
         // 复制
         case ContextMenuKeyEnum.COPY: {
-          if (permissionType?.read && resType !== ResourceTypeEnum.FOLDER) {
+          if (permissionType?.read && ![ResourceTypeEnum.DATA_SOURCES,ResourceTypeEnum.FOLDER,ResourceTypeEnum.PUBLIC_FOLDER,ResourceTypeEnum.SELF_FOLDER].includes(resType)) {
             return true;
           }
           break;
@@ -62,7 +62,7 @@ export function calculateOperationPermissions(
         // 删除
         case ContextMenuKeyEnum.DELETE: {
           if (
-            ![ResourceTypeEnum.DATA_SOURCES, ResourceTypeEnum.PUBLIC_FOLDER].includes(resType) &&
+            ![ResourceTypeEnum.DATA_SOURCES, ResourceTypeEnum.PUBLIC_FOLDER,ResourceTypeEnum.SELF_FOLDER].includes(resType) &&
             permissionType?.delete
           ) {
             return true;
@@ -81,7 +81,7 @@ export function calculateOperationPermissions(
         // 新建目录
         case ContextMenuKeyEnum.NEW_FOLDER: {
           if (
-            [ResourceTypeEnum.DATA_SOURCES, ResourceTypeEnum.FOLDER, ResourceTypeEnum.PUBLIC_FOLDER].includes(resType) &&
+            [ResourceTypeEnum.DATA_SOURCES, ResourceTypeEnum.FOLDER, ResourceTypeEnum.PUBLIC_FOLDER,ResourceTypeEnum.SELF_FOLDER].includes(resType) &&
             permissionType?.modify
           ) {
             return true;
@@ -99,7 +99,7 @@ export function calculateOperationPermissions(
 
         // 资源授权
         case ContextMenuKeyEnum.PERMISSION: {
-          if (permissionType?.grant) {
+          if (permissionType?.grant && node.resPid) {
             return true;
           }
           break;
@@ -114,7 +114,7 @@ export function calculateOperationPermissions(
 
         // 刷新
         case ContextMenuKeyEnum.REFRESH: {
-          if (![''].includes(resType)) {
+          if (![ResourceTypeEnum.BASIC_FIELD].includes(resType)) {
             return true;
           }
           break;
