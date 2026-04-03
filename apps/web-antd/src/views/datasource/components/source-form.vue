@@ -73,7 +73,7 @@ function createFormModel(): DatasourceForm {
     characterSet: 'utf8',
     poolConfig: '',
     isolation: 'JDBC',
-    columnAliasSource: '',
+    columnAliasSource: 'COMMENT',
     valMethod: 'GET_CONNECTION',
     valQuery: 'SELECT 1',
     quotedIden: '`',
@@ -199,7 +199,9 @@ async function showFormPanel(data: Params) {
     panelLoading.value = false;
   }, 200);
 }
-
+function handleClose() {
+  moduleTabbarStore.closeTab(TabModuleKey.DATASOURCE, props.tab.id);
+}
 onMounted(() => {
   showFormPanel(props.params);
 });
@@ -375,6 +377,7 @@ onMounted(() => {
     <SaveResourceModel @save="handleSaveCallback" />
     <template #actions>
       <a-flex gap="12" justify="end">
+        <a-button @click="handleClose">关 闭</a-button>
         <a-button @click="testConnDataBase" :loading="loading">
           测试连接
         </a-button>

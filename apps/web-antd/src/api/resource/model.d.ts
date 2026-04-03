@@ -155,19 +155,18 @@ export enum PermissionTypeEnum {
   REF = 'REF',
 }
 
-export interface ResourcePermission {
+
+export interface Permission {
   resId: number | string;
-  resName: string;
   ownerId: number | string;
   ownerName: string;
   inherited: string;
-
   inheritedPermissions: ResourcePermissionDetail[];
   permissionDetail: ResourcePermissionDetail[];
 }
 
 export interface ResourcePermissionDetail {
-  perId: number | string;
+  perId?: number | string;
   resId: number | string;
   objectId: number | string;
   objectName: string;

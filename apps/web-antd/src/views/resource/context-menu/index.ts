@@ -126,9 +126,15 @@ export function calculateOperationPermissions(
           }
           break;
         }
+        case ContextMenuKeyEnum.TABLE_STRUCTURE: {
+          if ([ResourceTypeEnum.BASIC_TABLE].includes(resType) && permissionType?.modify) {
+            return true;
+          }
+          break;
+        }
         // 同步表
         case ContextMenuKeyEnum.TABLE_SYNC: {
-          if ([ResourceTypeEnum.BASIC_TABLE].includes(resType) && permissionType?.modify) {
+          if ([ResourceTypeEnum.BASIC_TABLE].includes(resType) && permissionType?.read) {
             return true;
           }
           break;

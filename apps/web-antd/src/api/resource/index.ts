@@ -1,6 +1,6 @@
 import type { ID } from '../common';
 
-import type { PermissionType, ResourceForm, ResourceVO } from '#/api/resource/model.d';
+import type { PermissionType, ResourceForm, ResourcePermission, ResourceVO } from '#/api/resource/model.d';
 
 import { ModuleTypeEnum, ResourceTypeEnum } from '@vben/constants';
 
@@ -49,7 +49,7 @@ export function getPermissionType(id: ID) {
  * 根据资源ID获取资源信息
  */
 export function getResourceById(id: ID) {
-  return alovaInstance.post<PermissionType>(`/resource/get`, {
+  return alovaInstance.post<ResourceVO>(`/resource/get`, {
     id,
   });
 }
@@ -69,4 +69,26 @@ export function getResourceById(id: ID) {
  */
  export function updateResource(data: ResourceForm) {
   return alovaInstance.post<string>(`/resource/update`, data);
+}
+/**
+ * 查询资源授权情况
+ * @param resId 资源ID
+ * @returns 资源权限列表
+ */
+export function getResourcePermission(id: ID) {
+  return alovaInstance.post<ResourcePermission>(`/resource/permission`, {
+    id,
+  });
+}
+
+/**
+ * 保存资源权限
+ * @param permission 资源ID
+ * @returns 资源列表
+ */
+export function saveResourcePermission(permission: any) {
+  return alovaInstance.postWithMsg<ResourcePermission>(
+    `/resource/permission/save`,
+    permission,
+  );
 }

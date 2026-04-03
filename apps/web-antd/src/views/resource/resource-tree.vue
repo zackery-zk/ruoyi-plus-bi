@@ -9,11 +9,13 @@ import { useVbenModal } from '@vben/common-ui';
 import { ContextMenuKeyEnum, getModuleResourceTypes, type ModuleTypeEnum, ResourceTypeEnum } from '@vben/constants';
 
 import { SearchOutlined } from '@antdv-next/icons';
-import { type BasicDataNode, Empty, Input, Skeleton, SpaceCompact, type TreeProps } from 'antdv-next';
+import { type BasicDataNode, Empty, Input, Modal, Skeleton, SpaceCompact, type TreeProps } from 'antdv-next';
 
+import { syncTable } from '#/api/datasource';
 import { getChildrenWithType, getModuleResources } from '#/api/resource';
 
 import ContextMenu from './context-menu/index.vue';
+import perminssionModel from './permission/permission-modal.vue'
 import ResourceIcon from './resource-icon.vue';
 import resourceModal from './resource-modal.vue';
 
@@ -24,6 +26,7 @@ const props = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'doubleClick', data: ResourceVO): void;
+  (e: 'clickMenuItem', key: ContextMenuKeyEnum, node: ResourceVO): void;
 }>();
 
 interface Props {
@@ -45,6 +48,9 @@ const [ResourceModal, resourceModalApi] = useVbenModal({
   connectedComponent: resourceModal,
 });
 
+const [PerminssionModel,perminssionModelApi] = useVbenModal({
+  connectedComponent:perminssionModel
+})
 
 
 async function loadModuleTree() {
@@ -81,6 +87,13 @@ const loadData: TreeProps['loadData'] = ({ key, children }) =>{
     }
     const types = getModuleResourceTypes(props.module);
     getChildrenWithType(key, types).then(ret => {
+      ret.forEach((item) => {
+          if (
+            isLeafType.has(item.resType as ResourceTypeEnum)
+          ) {
+            item.isLeaf = true;
+          }
+        });
       resourceTree.value = updateTreeData(resourceTree.value, key, ret)
       resolve()
     })
@@ -113,17 +126,28 @@ async function handleReload(_ressId: number | string, resPid: number | string) {
     async (_node: ResourceVO[], item: ResourceVO, _index: number) => {
       const types = getModuleResourceTypes(props.module);
       const result = await getChildrenWithType(item.resId,types,);
+      result.forEach((item) => {
+          if (
+            isLeafType.has(item.resType as ResourceTypeEnum)
+          ) {
+            item.isLeaf = true;
+          }
+        });
       item.children = [...result];
     },
   );
 }
 
 function handleDoubleClick(data: BasicDataNode) {
-  console.log(data);
   if(![ResourceTypeEnum.DATA_SOURCES,ResourceTypeEnum.FOLDER,ResourceTypeEnum.PUBLIC_FOLDER].includes(data.resType as ResourceTypeEnum)){
     emit('doubleClick', data as ResourceVO);
   }
 }
+
+const isLeafType = new Set([ResourceTypeEnum.BASIC_FIELD])
+
+
+
 function titleRender(data: BasicDataNode) {
   const label = data.resAlias || data.resName;
 
@@ -148,18 +172,50 @@ function handleClickContextMenu(key: ID) {
   resId.value = key;
 }
 function handleClickMenuItem(key: ContextMenuKeyEnum, node: ResourceVO) {
-  if (key === ContextMenuKeyEnum.NEW_FOLDER) {
+  switch (key) {
+  case ContextMenuKeyEnum.NEW_FOLDER: {
     resourceModalApi.setData({
       resPid: node.resId,
       pName: node.resAlias || node.resName,
       resType: ResourceTypeEnum.FOLDER,
     });
     resourceModalApi.open();
-  }else if(key === ContextMenuKeyEnum.PROPERTIES){
+
+  break;
+  }
+  case ContextMenuKeyEnum.PERMISSION: {
+    perminssionModelApi.setData({resId:node.resId});
+    perminssionModelApi.open();
+
+  break;
+  }
+  case ContextMenuKeyEnum.PROPERTIES: {
     resourceModalApi.setData({
       resId: node.resId,
     });
     resourceModalApi.open();
+
+  break;
+  }
+  case ContextMenuKeyEnum.REFRESH:{
+    handleReload('',node.resId);
+    break;
+  }
+  case ContextMenuKeyEnum.TABLE_SYNC:{
+    Modal.confirm({
+      title:'提示',
+      content:'确定要同步表结构吗？',
+      okText:'确 定',
+      cancelText:'取消',
+      async onOk(){
+        await syncTable(node.resId);
+      }
+    })
+    break;
+  }
+  default: {
+    emit('clickMenuItem',key,node)
+  }
   }
 }
 
@@ -169,6 +225,10 @@ function iconRender({ data }: { data: ResourceVO }) {
 
 
 onMounted(loadModuleTree);
+
+defineExpose({
+  handleReload
+})
 </script>
 
 <template>
@@ -247,6 +307,7 @@ onMounted(loadModuleTree);
     </Skeleton>
 
     <ResourceModal @reload="handleReload" />
+    <PerminssionModel />
   </div>
 </template>
 <style lang="css" scoped>

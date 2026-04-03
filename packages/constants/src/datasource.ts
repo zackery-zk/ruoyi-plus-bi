@@ -68,11 +68,11 @@ export const COLUMN_ALIAS_SOURCE_OPTION:any[] = [
   },
   {
     label: '列别名',
-    value: 'COLUMN_ALIAS'
+    value: 'ALIAS'
   },
   {
     label: '列描述',
-    value: 'COLUMN_DESC'
+    value: 'COMMENT'
   }
 ]  as const;
 

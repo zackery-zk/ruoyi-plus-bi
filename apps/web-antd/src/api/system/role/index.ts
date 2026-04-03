@@ -98,7 +98,7 @@ export function roleDataScope(data: any) {
 }
 
 /**
- * @deprecated 全局并没有用到这个方法
+ *
  */
 export function roleOptionSelect(params?: any) {
   return alovaInstance.get(Api.roleOptionSelect, { params });

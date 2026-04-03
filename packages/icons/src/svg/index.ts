@@ -21,10 +21,10 @@ const SvgSnailJobIcon = createIconifyIcon('svg:snail-job');
 const SvgResFolderIcon = createIconifyIcon('svg:folder');
 const SvgResDataSourceRootIcon = createIconifyIcon('svg:datasource-root');
 const SvgResDataSourceIcon = createIconifyIcon('svg:datasource');
-
-
+const SvgResSchemaIcon = createIconifyIcon('svg:schema')
+const SvgResTableIcon = createIconifyIcon('svg:table')
 const SvgDsLibMysqlIcon = createIconifyIcon('svg:mysql');
-
+const SvgResFieldIcon = createIconifyIcon('svg:field')
 
 export {
   SvgAntdvLogoIcon,
@@ -41,7 +41,10 @@ export {
   SvgQQIcon,
   SvgResDataSourceIcon,
   SvgResDataSourceRootIcon,
+  SvgResFieldIcon,
   SvgResFolderIcon,
+  SvgResSchemaIcon,
+  SvgResTableIcon,
   SvgSnailJobIcon,
   SvgTopiamIcon,
   SvgWechatIcon,

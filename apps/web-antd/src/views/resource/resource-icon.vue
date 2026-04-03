@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ResourceTypeEnum } from '@vben/constants';
-import { SvgResDataSourceIcon, SvgResDataSourceRootIcon, SvgResFolderIcon } from '@vben/icons';
+import { SvgResDataSourceIcon, SvgResDataSourceRootIcon, SvgResFieldIcon,SvgResFolderIcon,SvgResSchemaIcon,SvgResTableIcon } from '@vben/icons';
 defineOptions({
   name: 'ResourceIcon',
   inheritAttrs: false,
@@ -32,6 +32,15 @@ interface Props {
       </template>
       <template v-else-if="resType === ResourceTypeEnum.DATA_SOURCE">
         <SvgResDataSourceIcon v-bind="$attrs" />
+      </template>
+      <template v-else-if="resType === ResourceTypeEnum.SCHEMA">
+        <SvgResSchemaIcon v-bind="$attrs" />
+      </template>
+      <template v-else-if="resType === ResourceTypeEnum.BASIC_TABLE">
+        <SvgResTableIcon v-bind="$attrs" />
+      </template>
+      <template v-else-if="resType === ResourceTypeEnum.BASIC_FIELD">
+        <SvgResFieldIcon v-bind="$attrs" />
       </template>
     </template>
   </div>

@@ -9,12 +9,12 @@ import type {
 
 import { computed, markRaw, reactive } from 'vue';
 
-import { buildShortUUID } from '@vben/utils';
+import { buildShortUUID, cloneDeep } from '@vben/utils';
 
 import { defineStore } from 'pinia';
 
 function cloneParams(params?: Record<string, unknown>) {
-  return params ? structuredClone(params) : {};
+  return params ? cloneDeep(params) : {};
 }
 
 function normalizeComponentDefinition(

@@ -35,6 +35,11 @@ export const ALL_MENU_ITEMS: MenuItemType[] = [
     icon: markRaw(TableOutlined)
   },
   {
+    key: ContextMenuKeyEnum.TABLE_STRUCTURE,
+    label: '表结构',
+    icon: markRaw(TableOutlined)
+  },
+  {
     key: ContextMenuKeyEnum.TABLE_SYNC,
     label: '同步表',
     icon: markRaw(SyncOutlined)

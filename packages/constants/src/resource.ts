@@ -1,10 +1,13 @@
 export enum ResourceTypeEnum {
+  BASIC_FIELD='BASIC_FIELD',
   BASIC_TABLE = 'BASIC_TABLE', //基础表
   DATA_SOURCE = 'DATA_SOURCE', // 数据源
   DATA_SOURCES = 'DATA_SOURCES', // 数据源目录
   FOLDER = 'FOLDER', // 目录
+
   PUBLIC_FOLDER = 'PUBLIC_FOLDER', // 公共目录
 
+  SCHEMA='SCHEMA',
   SELF_FOLDER = 'SELF_FOLDER', //我的空间
 }
 
@@ -20,6 +23,9 @@ export const getModuleResourceTypes = (
       return [
         ResourceTypeEnum.DATA_SOURCE,
         ResourceTypeEnum.DATA_SOURCES,
+        ResourceTypeEnum.SCHEMA,
+        ResourceTypeEnum.BASIC_TABLE,
+        ResourceTypeEnum.BASIC_FIELD,
         ResourceTypeEnum.FOLDER,
       ];
     }
