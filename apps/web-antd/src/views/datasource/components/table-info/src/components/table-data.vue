@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ID } from '#/api/common';
 
-import { onMounted, reactive, ref } from 'vue';
+import { nextTick, onMounted, reactive, ref } from 'vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
 import { queryTableData } from '#/api/datasource';
@@ -37,7 +37,6 @@ const gridOptions: VxeGridProps = reactive({
             return {
               field: v.name,
               title: v.alias || v.name,
-              width: 150,
             };
           });
           tableApi.grid.loadColumn(columns);
@@ -54,22 +53,25 @@ const gridOptions: VxeGridProps = reactive({
     },
   },
   toolbarConfig: {enabled:true},
-  id: 'sql-data-table',
+  id: `sql-data-table-${props.tableId}`,
   data: [],
 });
 const [BasicTable, tableApi] = useVbenVxeGrid({
   gridOptions,
 });
-
+const basicTableRef = ref();
 function loadData() {}
 
 onMounted(() => {
   loadData();
+  nextTick(()=>{
+    console.log(basicTableRef.value);
+  })
 });
 </script>
 
 <template>
   <BiLoading :loading="loading">
-    <BasicTable table-title="注：预览数据只展示100条数据" />
+    <BasicTable table-title="注：预览数据只展示100条数据" ref="basicTableRef" />
   </BiLoading>
 </template>

@@ -31,7 +31,6 @@ const [SelectTableModal, selecTableModalApi] = useVbenModal({
 });
 
 function handleTabEvent(param: any) {
-  console.log(param);
   const key = param.key;
   if (key === TabEventTypeEnum.NEW_DATASOURCE) {
     moduleTabbarStore.addTab(TabModuleKey.DATASOURCE, {
@@ -42,7 +41,7 @@ function handleTabEvent(param: any) {
   }
 }
 function handleDoubleClick(data: ResourceVO) {
-  if (data.resType === ResourceTypeEnum.DATA_SOURCES) {
+  if (data.resType === ResourceTypeEnum.DATA_SOURCE) {
     handleOpenDataSource(data);
   } else if(data.resType ===ResourceTypeEnum.BASIC_TABLE){
     handleOpenTableStructure(data);
