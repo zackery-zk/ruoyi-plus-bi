@@ -27,6 +27,7 @@ import { defineOverridesPreferences } from '@vben/preferences';
 export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
+    layout: 'sidebar-mixed-nav',
     /**
      * antdv-next改为mix模式
      * - 后端路由 通过菜单管理进行配置

@@ -17,11 +17,11 @@ const routes: RouteRecordRaw[] = [
     },
     name: 'Dashboard',
     path: '/dashboard',
-    redirect: '/analytics',
+    redirect: '/bi',
     children: [
       {
         name: 'Analytics',
-        path: '/analytics',
+        path: '/bi',
         component: () => import('#/views/dashboard/analytics/index.vue'),
         meta: {
           affixTab: true,

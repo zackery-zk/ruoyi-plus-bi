@@ -31,6 +31,8 @@
     "@antdv-next/auto-import-resolver": "catalog:",
     "@antdv-next/happy-work-theme": "catalog:",
     "@antdv-next/icons": "catalog:",
+    "@antv/x6": "^3.1.7",
+    "@antv/x6-vue-shape": "^3.0.2",
     "@tinymce/tinymce-vue": "catalog:",
     "@vben-core/shadcn-ui": "workspace:*",
     "@vben-core/tabs-ui": "workspace:*",
