@@ -20,7 +20,7 @@ import { useModuleTabbarStore } from '#/store';
 import selectTableModal from './modal/select-table-modal.vue';
 import {
   datasourceModuleDefinition,
-  ModuleTableComponentEnum,
+  ModuleDataSourceComponentEnum,
 } from './module-tabs';
 
 const moduleTabbarStore = useModuleTabbarStore();
@@ -34,7 +34,7 @@ function handleTabEvent(param: any) {
   const key = param.key;
   if (key === TabEventTypeEnum.NEW_DATASOURCE) {
     moduleTabbarStore.addTab(TabModuleKey.DATASOURCE, {
-      componentKey: ModuleTableComponentEnum.SOURCE_FORM,
+      componentKey: ModuleDataSourceComponentEnum.SOURCE_FORM,
       params: { type: param.data.type },
       title: '新建数据源',
     });
@@ -43,14 +43,14 @@ function handleTabEvent(param: any) {
 function handleDoubleClick(data: ResourceVO) {
   if (data.resType === ResourceTypeEnum.DATA_SOURCE) {
     handleOpenDataSource(data);
-  } else if(data.resType ===ResourceTypeEnum.BASIC_TABLE){
+  } else if (data.resType === ResourceTypeEnum.BASIC_TABLE) {
     handleOpenTableStructure(data);
   }
 }
 
 function handleOpenDataSource(data: ResourceVO) {
   moduleTabbarStore.addTab(TabModuleKey.DATASOURCE, {
-    componentKey: ModuleTableComponentEnum.SOURCE_FORM,
+    componentKey: ModuleDataSourceComponentEnum.SOURCE_FORM,
     title: data.resAlias || data.resName,
     resId: data.resId,
     params: {
@@ -61,7 +61,7 @@ function handleOpenDataSource(data: ResourceVO) {
 
 function handleOpenTableStructure(data: ResourceVO) {
   moduleTabbarStore.addTab(TabModuleKey.DATASOURCE, {
-    componentKey: ModuleTableComponentEnum.TABLE_STRUCTURE,
+    componentKey: ModuleDataSourceComponentEnum.TABLE_STRUCTURE,
     title: data.resAlias || data.resName,
     resId: data.resId,
     params: {
@@ -104,7 +104,10 @@ function handleReload(resId: ID) {
     @click-menu-item="handleClickMenuItem"
     ref="modulePageRef"
   >
-    <ModuleTabbar module-key="datasource" @tab-event="handleTabEvent" />
+    <ModuleTabbar
+      :module-key="TabModuleKey.DATASOURCE"
+      @tab-event="handleTabEvent"
+    />
     <SelectTableModal @reload="handleReload" />
   </ModulePage>
 </template>

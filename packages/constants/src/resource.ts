@@ -1,14 +1,19 @@
 export enum ResourceTypeEnum {
   BASIC_FIELD='BASIC_FIELD',
   BASIC_TABLE = 'BASIC_TABLE', //基础表
+  DATA_SERVICES='DATA_SERVICES',//数据服务目录
   DATA_SOURCE = 'DATA_SOURCE', // 数据源
   DATA_SOURCES = 'DATA_SOURCES', // 数据源目录
+
   FOLDER = 'FOLDER', // 目录
 
   PUBLIC_FOLDER = 'PUBLIC_FOLDER', // 公共目录
-
   SCHEMA='SCHEMA',
+
   SELF_FOLDER = 'SELF_FOLDER', //我的空间
+  SQL_DATASET='SQL_DATASET',//SQL数据集
+  SQL_FIELD='SQL_FIELD',// SQL数据集字段
+
 }
 
 /**
@@ -19,6 +24,14 @@ export const getModuleResourceTypes = (
   model: ModuleTypeEnum,
 ): ResourceTypeEnum[] => {
   switch (model) {
+    case ModuleTypeEnum.DATA_SERVICE: {
+      return [
+        ResourceTypeEnum.DATA_SERVICES,
+        ResourceTypeEnum.SQL_DATASET,
+        ResourceTypeEnum.FOLDER,
+        ResourceTypeEnum.SQL_FIELD
+      ];
+    }
     case ModuleTypeEnum.DATA_SOURCE: {
       return [
         ResourceTypeEnum.DATA_SOURCE,
@@ -34,6 +47,7 @@ export const getModuleResourceTypes = (
 };
 
 export enum ModuleTypeEnum {
+  DATA_SERVICE='DATA_SERVICE',
   DATA_SOURCE = 'DATA_SOURCE',
   DATA_WORKBENCH = 'DATA_WORKBENCH',
 }

@@ -17,12 +17,13 @@
     }
   },
   "dependencies": {
+    "@iconify/icons-icon-park": "catalog:",
     "@vben-core/icons": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:^"
   },
   "devDependencies": {
-    "@iconify/icons-ri": "^1.2.10",
-    "@iconify/icons-simple-icons": "^1.2.74",
+    "@iconify/icons-ri": "catalog:",
+    "@iconify/icons-simple-icons": "catalog:",
     "@iconify/json": "catalog:"
   }
 }

@@ -24,9 +24,13 @@ function handleClickMenuItem(key: ContextMenuKeyEnum, node: ResourceVO) {
 }
 const resourceTreeRef = ref();
 
+const size = ref<string>('15%');
+
+
 function handleReload(resPid: number | string) {
   resourceTreeRef.value.handleReload(null, resPid);
 }
+
 defineExpose({
   handleReload,
 });
@@ -35,14 +39,18 @@ defineExpose({
 <template>
   <div class="w-full h-[calc(100vh-50px)]">
     <a-splitter>
-      <a-splitter-panel default-size="15%" min="15%" max="40%" collapsible>
+      <a-splitter-panel :default-size="size" min="15%" max="40%" collapsible>
         <ResourceTree
           :module="module"
           class="h-full w-full bg-background"
           @double-click="handleDoubleClick"
           @click-menu-item="handleClickMenuItem"
           ref="resourceTreeRef"
-        />
+        >
+          <template #toolbar-actions>
+            <slot name="toolbar-actions"></slot>
+          </template>
+        </ResourceTree>
       </a-splitter-panel>
       <a-splitter-panel class="min-h-0">
         <slot></slot>

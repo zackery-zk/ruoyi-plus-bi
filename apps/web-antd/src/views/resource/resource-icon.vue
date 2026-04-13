@@ -1,6 +1,16 @@
 <script lang="ts" setup>
 import { ResourceTypeEnum } from '@vben/constants';
-import { SvgResDataSourceIcon, SvgResDataSourceRootIcon, SvgResFieldIcon,SvgResFolderIcon,SvgResSchemaIcon,SvgResTableIcon } from '@vben/icons';
+import {
+  SvgResDataServiceRootIcon,
+  SvgResDataSourceIcon,
+  SvgResDataSourceRootIcon,
+  SvgResFieldIcon,
+  SvgResFolderIcon,
+  SvgResSchemaIcon,
+  SvgResSqlDatasetIcon,
+  SvgResSqlFieldIcon,
+  SvgResTableIcon,
+} from '@vben/icons';
 defineOptions({
   name: 'ResourceIcon',
   inheritAttrs: false,
@@ -23,7 +33,7 @@ interface Props {
         v-if="
           resType === ResourceTypeEnum.FOLDER ||
           resType === ResourceTypeEnum.PUBLIC_FOLDER ||
-           resType === ResourceTypeEnum.SELF_FOLDER
+          resType === ResourceTypeEnum.SELF_FOLDER
         "
       >
         <SvgResFolderIcon v-bind="$attrs" />
@@ -42,6 +52,15 @@ interface Props {
       </template>
       <template v-else-if="resType === ResourceTypeEnum.BASIC_FIELD">
         <SvgResFieldIcon v-bind="$attrs" />
+      </template>
+      <template v-else-if="resType === ResourceTypeEnum.DATA_SERVICES">
+        <SvgResDataServiceRootIcon v-bind="$attrs" />
+      </template>
+      <template v-else-if="resType === ResourceTypeEnum.SQL_DATASET">
+        <SvgResSqlDatasetIcon v-bind="$attrs" />
+      </template>
+      <template v-else-if="resType === ResourceTypeEnum.SQL_FIELD">
+        <SvgResSqlFieldIcon v-bind="$attrs" />
       </template>
     </template>
   </div>

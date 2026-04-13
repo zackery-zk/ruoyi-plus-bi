@@ -25,7 +25,11 @@ const SvgResSchemaIcon = createIconifyIcon('svg:schema')
 const SvgResTableIcon = createIconifyIcon('svg:table')
 const SvgDsLibMysqlIcon = createIconifyIcon('svg:mysql');
 const SvgResFieldIcon = createIconifyIcon('svg:field')
-
+const SvgResDataServiceRootIcon = createIconifyIcon('svg:dataservice-root');
+const SvgCheckParamIcon = createIconifyIcon('svg:check-param');
+const SvgDetectionIcon = createIconifyIcon('svg:detection');
+const SvgResSqlDatasetIcon = createIconifyIcon('svg:sql-set');
+const SvgResSqlFieldIcon = createIconifyIcon('svg:sql-field');
 export {
   SvgAntdvLogoIcon,
   SvgAvatar1Icon,
@@ -35,15 +39,20 @@ export {
   SvgBellIcon,
   SvgCakeIcon,
   SvgCardIcon,
+  SvgCheckParamIcon,
+  SvgDetectionIcon,
   SvgDownloadIcon,
   SvgDsLibMysqlIcon,
   SvgMaxKeyIcon,
   SvgQQIcon,
+  SvgResDataServiceRootIcon,
   SvgResDataSourceIcon,
   SvgResDataSourceRootIcon,
   SvgResFieldIcon,
   SvgResFolderIcon,
   SvgResSchemaIcon,
+  SvgResSqlDatasetIcon,
+  SvgResSqlFieldIcon,
   SvgResTableIcon,
   SvgSnailJobIcon,
   SvgTopiamIcon,

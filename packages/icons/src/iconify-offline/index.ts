@@ -1,5 +1,6 @@
 import { createIconifyOfflineIcon } from '@vben-core/icons';
 
+import switchIcon from '@iconify/icons-icon-park/switch';
 import dingdingFill from '@iconify/icons-ri/dingding-fill';
 import giteeIcon from '@iconify/icons-simple-icons/gitee';
 
@@ -13,4 +14,9 @@ export const DingdingIcon = createIconifyOfflineIcon(
 export const GiteeIcon = createIconifyOfflineIcon(
   'simple-icons:gitee',
   giteeIcon,
+);
+
+export const SwitchIcon = createIconifyOfflineIcon(
+  'icon-park-outline:switch',
+  switchIcon,
 );

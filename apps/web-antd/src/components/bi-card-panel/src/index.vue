@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { BiLoading } from '#/components/bi-loading';
 interface Props {
-  loading: boolean;
-  panelLoading:boolean;
+  loading?: boolean;
+  panelLoading?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
   loading: false,
-  panelLoading:false,
+  panelLoading: false,
 });
 </script>
 
@@ -27,6 +27,12 @@ withDefaults(defineProps<Props>(), {
           },
         }"
       >
+        <template #title>
+          <slot name="title"></slot>
+        </template>
+        <template #extra>
+          <slot name="extra"></slot>
+        </template>
         <template #actions>
           <div class="px-2">
             <slot name="actions"></slot>

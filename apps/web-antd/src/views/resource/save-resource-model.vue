@@ -27,6 +27,7 @@ const emit = defineEmits<{
 const DIR_TYPES = [
   ResourceTypeEnum.FOLDER,
   ResourceTypeEnum.DATA_SOURCES,
+  ResourceTypeEnum.DATA_SERVICES,
   ResourceTypeEnum.PUBLIC_FOLDER,
   ResourceTypeEnum.SELF_FOLDER,
 ] as const;
@@ -141,31 +142,71 @@ function buildTreeNode(node: ResourceVO): TreeNode {
 
 const treeData = computed<TreeNode[]>(() => roots.value.map((r) => buildTreeNode(r)));
 
-function handleTreeSelectChange(value: ID | null) {
-  if (value === null) return;
+function idEq(a: ID | null | undefined, b: ID | null | undefined) {
+  return String(a) === String(b);
+}
 
-  const indexInPath = pathStack.value.findIndex((item) => item.resId === value);
+/**
+ * 从已缓存的 nodeById 沿 resPid 向上拼出 [根, ..., 当前节点]
+ * 用于下拉树选中任意已加载节点时，与 pathStack / 中间列表保持一致。
+ */
+function buildPathChainToNode(target: ResourceVO): ResourceVO[] {
+  const chain: ResourceVO[] = [];
+  let current: ResourceVO | undefined = target;
+  const guard = 64;
+  let depth = 0;
+  while (current && depth < guard) {
+    chain.unshift(current);
+    const pid: ID = current.resPid;
+    if (pid === undefined || pid === null || String(pid) === '') {
+      break;
+    }
+    const parentNode: ResourceVO | undefined = nodeById.value[String(pid)];
+    if (!parentNode) {
+      break;
+    }
+    current = parentNode;
+    depth += 1;
+  }
+  return chain;
+}
+
+function handleTreeSelectChange(value: ID | null) {
+  if (value === null || value === undefined) return;
+
+  const valueKey = String(value);
+
+  const indexInPath = pathStack.value.findIndex((item) => idEq(item.resId, value));
   if (indexInPath !== -1) {
     void applyPath(pathStack.value.slice(0, indexInPath + 1));
     return;
   }
 
-  // value 可能在某个路径节点的子节点里：找到它的父节点并拼接路径。
-  const valueKey = String(value);
+  // value 在当前路径某层的已加载子节点中：拼接到该父节点之后。
   const parentIndex = pathStack.value.findIndex((parent) => {
     const key = String(parent.resId);
     const children = childrenByParentId.value[key];
-    return Array.isArray(children) && children.some((c) => String(c.resId) === valueKey);
+    return Array.isArray(children) && children.some((c) => idEq(c.resId, value));
   });
 
-  if (parentIndex === -1) return;
+  if (parentIndex !== -1) {
+    const parent = pathStack.value[parentIndex]!;
+    const siblings = childrenByParentId.value[String(parent.resId)] ?? [];
+    const childNode = siblings.find((c) => idEq(c.resId, value));
+    if (childNode) {
+      void applyPath([...pathStack.value.slice(0, parentIndex + 1), childNode]);
+      return;
+    }
+  }
 
-  const parent = pathStack.value[parentIndex]!;
-  const siblings = childrenByParentId.value[String(parent.resId)] ?? [];
-  const childNode = siblings.find((c) => String(c.resId) === valueKey);
-  if (!childNode) return;
-
-  void applyPath([...pathStack.value.slice(0, parentIndex + 1), childNode]);
+  // 其它情况：用 nodeById + resPid 回溯（覆盖切换另一根节点、跨层选中等 v-model 已变但 pathStack 未同步）
+  const node = nodeById.value[valueKey];
+  if (node) {
+    const chain = buildPathChainToNode(node);
+    if (chain.length > 0) {
+      void applyPath(chain);
+    }
+  }
 }
 
 function handleSelectDir(item: ResourceVO) {
@@ -187,7 +228,10 @@ const [NewFolderModal, newFolderModalApi] = useVbenModal({
 });
 
 function handleOpenNewFolder() {
-  const current = pathStack.value.at(-1);
+  const id = selectedDirId.value;
+  if (id === undefined || id === null) return;
+  // 与 TreeSelect 一致：优先用当前选中 id 对应节点，避免 pathStack 未与 v-model 同步时父级错误
+  const current = nodeById.value[String(id)] ?? pathStack.value.at(-1);
   if (!current) return;
 
   newFolderModalApi.setData({

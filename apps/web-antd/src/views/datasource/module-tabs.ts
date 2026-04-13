@@ -6,7 +6,7 @@ import SourceForm from './components/source-form.vue';
 import SourceHome from './components/source-home.vue';
 import { TableInfo } from './components/table-info';
 
-export enum ModuleTableComponentEnum {
+export enum ModuleDataSourceComponentEnum {
   SOURCE_FORM = 'source-form',
   SOURCE_HOME = 'source-home',
   TABLE_STRUCTURE = 'table-structure',
@@ -17,25 +17,25 @@ const datasourceModuleDefinition: ModuleTabModuleDefinition = {
     {
       component: SourceForm,
       description: '数据源表单',
-      key: ModuleTableComponentEnum.SOURCE_FORM,
+      key: ModuleDataSourceComponentEnum.SOURCE_FORM,
       title: '数据源表单',
     },
     {
       component: TableInfo,
       description: '表详情',
-      key: ModuleTableComponentEnum.TABLE_STRUCTURE,
+      key: ModuleDataSourceComponentEnum.TABLE_STRUCTURE,
       title: '表详情',
     },
     {
       component: SourceHome,
       description: '默认',
-      key: ModuleTableComponentEnum.SOURCE_HOME,
+      key: ModuleDataSourceComponentEnum.SOURCE_HOME,
       title: '导航',
     },
   ],
   defaultTabs: [
     {
-      componentKey: ModuleTableComponentEnum.SOURCE_HOME,
+      componentKey: ModuleDataSourceComponentEnum.SOURCE_HOME,
       title: '导航',
     },
   ],

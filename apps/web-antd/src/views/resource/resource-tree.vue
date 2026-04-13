@@ -9,7 +9,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { ContextMenuKeyEnum, getModuleResourceTypes, type ModuleTypeEnum, ResourceTypeEnum } from '@vben/constants';
 
 import { SearchOutlined } from '@antdv-next/icons';
-import { type BasicDataNode, Empty, Input, Modal, Skeleton, SpaceCompact, type TreeProps } from 'antdv-next';
+import { type BasicDataNode, Empty, Input, Modal, Skeleton, type TreeProps } from 'antdv-next';
 
 import { syncTable } from '#/api/datasource';
 import { getChildrenWithType, getModuleResources } from '#/api/resource';
@@ -20,22 +20,32 @@ import ResourceIcon from './resource-icon.vue';
 import resourceModal from './resource-modal.vue';
 
 defineOptions({ inheritAttrs: false });
-
-
-const props = defineProps<Props>()
-
+const props = withDefaults(defineProps<Props>(), {
+  showContextMenu: true,
+  noSelfType: undefined,
+})
 const emit = defineEmits<{
   (e: 'doubleClick', data: ResourceVO): void;
   (e: 'clickMenuItem', key: ContextMenuKeyEnum, node: ResourceVO): void;
+  (e: 'nodeClick', node: ResourceVO): void;
 }>();
-
 interface Props {
   /**
    * 模块
    */
   module: ModuleTypeEnum;
-}
 
+  /**
+   * 不允许self的节点
+   */
+  noSelfType?:ResourceTypeEnum;
+
+  /**
+   * 显示后缀菜单
+   */
+  showContextMenu?:boolean;
+
+}
 const resId = ref<ID>();
 const searchValue = ref<string>('');
 
@@ -89,7 +99,7 @@ const loadData: TreeProps['loadData'] = ({ key, children }) =>{
     getChildrenWithType(key, types).then(ret => {
       ret.forEach((item) => {
           if (
-            isLeafType.has(item.resType as ResourceTypeEnum)
+            isLeafType.has(item.resType as ResourceTypeEnum) || props.noSelfType === item.resType as ResourceTypeEnum
           ) {
             item.isLeaf = true;
           }
@@ -128,7 +138,7 @@ async function handleReload(_ressId: number | string, resPid: number | string) {
       const result = await getChildrenWithType(item.resId,types,);
       result.forEach((item) => {
           if (
-            isLeafType.has(item.resType as ResourceTypeEnum)
+            isLeafType.has(item.resType as ResourceTypeEnum) || props.noSelfType === item.resType as ResourceTypeEnum
           ) {
             item.isLeaf = true;
           }
@@ -144,7 +154,11 @@ function handleDoubleClick(data: BasicDataNode) {
   }
 }
 
-const isLeafType = new Set([ResourceTypeEnum.BASIC_FIELD])
+function handleClick(data: BasicDataNode) {
+  emit('nodeClick', data as ResourceVO);
+}
+
+const isLeafType = new Set([ResourceTypeEnum.BASIC_FIELD,ResourceTypeEnum.SQL_FIELD])
 
 
 
@@ -152,18 +166,22 @@ function titleRender(data: BasicDataNode) {
   const label = data.resAlias || data.resName;
 
   return (
-    <div class="ml-1 flex w-full h-full items-center justify-between" onDblclick={() => handleDoubleClick(data)}>
+    <div class="ml-1 flex w-full h-full items-center justify-between" onClick={()=>handleClick(data)} onDblclick={() => handleDoubleClick(data)}>
       <div class="select-none">
         {label}
       </div>
-      <div class="bi-res-tree-context-menu ">
-        <ContextMenu
-        moduleTypeEnum={props.module}
-        onClickContextMenu={handleClickContextMenu}
-        onClickMenuItem={handleClickMenuItem}
-        v-model:currentNode={data as ResourceVO}
-        v-model:resId={resId.value}/>
-      </div>
+      {
+        props.showContextMenu && (
+          <div class="bi-res-tree-context-menu">
+            <ContextMenu
+            moduleTypeEnum={props.module}
+            onClickContextMenu={handleClickContextMenu}
+            onClickMenuItem={handleClickMenuItem}
+            v-model:currentNode={data as ResourceVO}
+            v-model:resId={resId.value}/>
+          </div>
+        )
+      }
     </div>
   );
 }
@@ -241,19 +259,19 @@ defineExpose({
     >
       <div class="flex h-full flex-col overflow-y-auto rounded-lg">
         <!-- 固定在顶部 必须加上bg-background背景色 否则会产生'穿透'效果 -->
-        <div class="sticky left-0 top-0 z-100 bg-background p-[5px]">
-          <SpaceCompact class="w-full">
-            <Input
-              v-model:value="searchValue"
-              :placeholder="$t('pages.common.search')"
-              allow-clear
-            >
-              <template #prefix>
-                <SearchOutlined />
-              </template>
-            </Input>
-            <slot name="toolbar-actions"></slot>
-          </SpaceCompact>
+        <div
+          class="sticky left-0 top-0 z-100 bg-background p-[5px] flex items-center gap-2"
+        >
+          <Input
+            v-model:value="searchValue"
+            :placeholder="$t('pages.common.search')"
+            allow-clear
+          >
+            <template #prefix>
+              <SearchOutlined />
+            </template>
+          </Input>
+          <slot name="toolbar-actions"></slot>
         </div>
         <div class="h-full overflow-x-hidden px-[8px]">
           <a-config-provider

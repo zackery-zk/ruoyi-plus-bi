@@ -45,3 +45,7 @@ export const dataFormatConvert = (type: DataTypeEnum): DataFormatTypeEnum => {
   }
   return DataFormatTypeEnum.String;
 };
+
+export const getDefaultFormat = (type: DataTypeEnum): number | string => {
+  return DefaultDataFormatEnum[dataFormatConvert(type)];
+};

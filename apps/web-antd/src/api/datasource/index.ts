@@ -106,3 +106,13 @@ export function queryTableData(id: ID) {
     id
   });
 }
+
+
+/**
+ * 根据数据源ID获取所有表
+ */
+export function getAllTableByDsId(id: ID) {
+  return alovaInstance.post<BasicTable[]>('/datasource/getAllTableByDsId', {
+    id
+  });
+}

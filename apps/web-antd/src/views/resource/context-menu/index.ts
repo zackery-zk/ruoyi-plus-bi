@@ -1,6 +1,10 @@
 import type { PermissionType, ResourceVO } from '#/api/resource/model';
 
-import { ContextMenuKeyEnum, ModuleTypeEnum, ResourceTypeEnum } from '@vben/constants';
+import {
+  ContextMenuKeyEnum,
+  ModuleTypeEnum,
+  ResourceTypeEnum,
+} from '@vben/constants';
 
 import { ALL_MENU_ITEMS } from './menu-item';
 
@@ -21,7 +25,7 @@ export interface MenuItem {
 export interface MenuConfig {
   nodeData?: ResourceVO;
   enablePaste?: boolean;
-  customFilter?: (item: MenuItem, nodeData?:ResourceVO) => boolean;
+  customFilter?: (item: MenuItem, nodeData?: ResourceVO) => boolean;
 }
 
 /**
@@ -33,10 +37,9 @@ export interface MenuConfig {
 export function calculateOperationPermissions(
   node: ResourceVO,
   permissionType: PermissionType,
-  _moduleTypeEnum: ModuleTypeEnum
+  _moduleTypeEnum: ModuleTypeEnum,
 ) {
-
-  return ALL_MENU_ITEMS.filter(item => {
+  return ALL_MENU_ITEMS.filter((item) => {
     if (item.hidden) {
       return false;
     }
@@ -45,7 +48,10 @@ export function calculateOperationPermissions(
 
       switch (item.key) {
         case ContextMenuKeyEnum.ADD_TABLE_MAPPING: {
-          if ([ResourceTypeEnum.DATA_SOURCE].includes(resType) && permissionType?.modify) {
+          if (
+            [ResourceTypeEnum.DATA_SOURCE].includes(resType) &&
+            permissionType?.modify
+          ) {
             return true;
           }
           break;
@@ -53,7 +59,15 @@ export function calculateOperationPermissions(
 
         // 复制
         case ContextMenuKeyEnum.COPY: {
-          if (permissionType?.read && ![ResourceTypeEnum.DATA_SOURCES,ResourceTypeEnum.FOLDER,ResourceTypeEnum.PUBLIC_FOLDER,ResourceTypeEnum.SELF_FOLDER].includes(resType)) {
+          if (
+            permissionType?.read &&
+            ![
+              ResourceTypeEnum.DATA_SOURCES,
+              ResourceTypeEnum.FOLDER,
+              ResourceTypeEnum.PUBLIC_FOLDER,
+              ResourceTypeEnum.SELF_FOLDER,
+            ].includes(resType)
+          ) {
             return true;
           }
           break;
@@ -62,7 +76,11 @@ export function calculateOperationPermissions(
         // 删除
         case ContextMenuKeyEnum.DELETE: {
           if (
-            ![ResourceTypeEnum.DATA_SOURCES, ResourceTypeEnum.PUBLIC_FOLDER,ResourceTypeEnum.SELF_FOLDER].includes(resType) &&
+            ![
+              ResourceTypeEnum.DATA_SOURCES,
+              ResourceTypeEnum.PUBLIC_FOLDER,
+              ResourceTypeEnum.SELF_FOLDER,
+            ].includes(resType) &&
             permissionType?.delete
           ) {
             return true;
@@ -72,7 +90,13 @@ export function calculateOperationPermissions(
 
         // 编辑
         case ContextMenuKeyEnum.EDIT: {
-          if ([ResourceTypeEnum.DATA_SOURCE].includes(resType) && permissionType?.modify) {
+          if (
+            [
+              ResourceTypeEnum.DATA_SOURCE,
+              ResourceTypeEnum.SQL_DATASET,
+            ].includes(resType) &&
+            permissionType?.modify
+          ) {
             return true;
           }
           break;
@@ -81,7 +105,12 @@ export function calculateOperationPermissions(
         // 新建目录
         case ContextMenuKeyEnum.NEW_FOLDER: {
           if (
-            [ResourceTypeEnum.DATA_SOURCES, ResourceTypeEnum.FOLDER, ResourceTypeEnum.PUBLIC_FOLDER,ResourceTypeEnum.SELF_FOLDER].includes(resType) &&
+            [
+              ResourceTypeEnum.DATA_SOURCES,
+              ResourceTypeEnum.FOLDER,
+              ResourceTypeEnum.PUBLIC_FOLDER,
+              ResourceTypeEnum.SELF_FOLDER,
+            ].includes(resType) &&
             permissionType?.modify
           ) {
             return true;
@@ -121,20 +150,29 @@ export function calculateOperationPermissions(
         }
         // 排序
         case ContextMenuKeyEnum.SORT: {
-          if ([ResourceTypeEnum.FOLDER].includes(resType) && permissionType?.modify) {
+          if (
+            [ResourceTypeEnum.FOLDER].includes(resType) &&
+            permissionType?.modify
+          ) {
             return true;
           }
           break;
         }
         case ContextMenuKeyEnum.TABLE_STRUCTURE: {
-          if ([ResourceTypeEnum.BASIC_TABLE].includes(resType) && permissionType?.modify) {
+          if (
+            [ResourceTypeEnum.BASIC_TABLE].includes(resType) &&
+            permissionType?.modify
+          ) {
             return true;
           }
           break;
         }
         // 同步表
         case ContextMenuKeyEnum.TABLE_SYNC: {
-          if ([ResourceTypeEnum.BASIC_TABLE].includes(resType) && permissionType?.read) {
+          if (
+            [ResourceTypeEnum.BASIC_TABLE].includes(resType) &&
+            permissionType?.read
+          ) {
             return true;
           }
           break;
