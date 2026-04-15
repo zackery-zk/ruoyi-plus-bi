@@ -14,7 +14,6 @@ import {
 } from '@vben/constants';
 
 import { ModulePage } from '#/components/module-page';
-import { ModuleTabbar } from '#/components/module-tabbar';
 import { useModuleTabbarStore } from '#/store';
 
 import selectTableModal from './modal/select-table-modal.vue';
@@ -100,14 +99,12 @@ function handleReload(resId: ID) {
 <template>
   <ModulePage
     :module="ModuleTypeEnum.DATA_SOURCE"
+    :tab-module-key="TabModuleKey.DATASOURCE"
     @double-click="handleDoubleClick"
     @click-menu-item="handleClickMenuItem"
     ref="modulePageRef"
+    @tab-event="handleTabEvent"
   >
-    <ModuleTabbar
-      :module-key="TabModuleKey.DATASOURCE"
-      @tab-event="handleTabEvent"
-    />
     <SelectTableModal @reload="handleReload" />
   </ModulePage>
 </template>

@@ -1,3 +1,4 @@
+import type { TableQuery } from '../core/param';
 import type { QueryResult } from '../core/result';
 import type { JdbcTable } from '../metadata/model';
 import type { BasicField } from './field/model';
@@ -67,7 +68,6 @@ export function syncTable(id: ID) {
   });
 }
 
-
 /**
  * 根据表ID获取字段列表
  */
@@ -76,7 +76,6 @@ export function getTableById(tableId: ID) {
     id: tableId,
   });
 }
-
 
 /**
  * 根据表ID获取字段列表
@@ -93,26 +92,32 @@ export function getFieldByTableId(tableId: ID) {
 export function updateBasicFields(basicFields: BasicField[], tableId: ID) {
   return alovaInstance.postWithMsg<void>('/datasource/updateBasicFields', {
     basicFields,
-    tableId
+    tableId,
   });
 }
-
 
 /**
  * 获取表数据
  */
-export function queryTableData(id: ID) {
-  return alovaInstance.post<QueryResult>('/datasource/queryTableData', {
-    id
-  });
+export function queryTableData(query:TableQuery) {
+  return alovaInstance.post<QueryResult>('/datasource/queryTableData', query);
 }
-
 
 /**
  * 根据数据源ID获取所有表
  */
 export function getAllTableByDsId(id: ID) {
   return alovaInstance.post<BasicTable[]>('/datasource/getAllTableByDsId', {
-    id
+    id,
+  });
+}
+
+/**
+ * 获取表信息及字段信息
+ *
+ */
+export function getTableAndFieldsById(id: ID) {
+  return alovaInstance.post<BasicTable>('/datasource/getTableAndFieldsById', {
+    id,
   });
 }

@@ -44,4 +44,6 @@ export interface BasicTable {
    * 扩展字段
    */
   extended: string;
+
+  fields?:BasicField[];
 }

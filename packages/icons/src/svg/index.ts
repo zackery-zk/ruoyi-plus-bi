@@ -30,16 +30,44 @@ const SvgCheckParamIcon = createIconifyIcon('svg:check-param');
 const SvgDetectionIcon = createIconifyIcon('svg:detection');
 const SvgResSqlDatasetIcon = createIconifyIcon('svg:sql-set');
 const SvgResSqlFieldIcon = createIconifyIcon('svg:sql-field');
+
+const SvgAggAvgIcon = createIconifyIcon('svg:agg-avg');
+const SvgAggCountIcon = createIconifyIcon('svg:agg-count');
+const SvgAggDisCountIcon = createIconifyIcon("svg:agg-discount");
+const SvgAggMaxIcon = createIconifyIcon("svg:agg-max");
+const SvgAggMinIcon = createIconifyIcon("svg:agg-min");
+const SvgAggSumIcon = createIconifyIcon("svg:agg-sum");
+const SvgResDimensionIcon = createIconifyIcon("svg:dimensions");
+const SvgResMeasureIcon = createIconifyIcon("svg:measures");
+
+
+const SvgDataTypeDateTimeIcon = createIconifyIcon('svg:datatype-datatime')
+const SvgDataTypeTimeIcon = createIconifyIcon('svg:datatype-time')
+const SvgDataTypeDateIcon = createIconifyIcon('svg:datatype-date')
+const SvgDataTypeNumberIcon = createIconifyIcon('svg:datatype-number')
+const SvgDataTypeStringIcon = createIconifyIcon('svg:datatype-string')
 export {
+  SvgAggAvgIcon,
+  SvgAggCountIcon,
+  SvgAggDisCountIcon,
+  SvgAggMaxIcon,
+  SvgAggMinIcon,
+  SvgAggSumIcon,
   SvgAntdvLogoIcon,
   SvgAvatar1Icon,
   SvgAvatar2Icon,
+
   SvgAvatar3Icon,
   SvgAvatar4Icon,
   SvgBellIcon,
   SvgCakeIcon,
   SvgCardIcon,
   SvgCheckParamIcon,
+  SvgDataTypeDateIcon,
+  SvgDataTypeDateTimeIcon,
+  SvgDataTypeNumberIcon,
+  SvgDataTypeStringIcon,
+  SvgDataTypeTimeIcon,
   SvgDetectionIcon,
   SvgDownloadIcon,
   SvgDsLibMysqlIcon,
@@ -48,8 +76,10 @@ export {
   SvgResDataServiceRootIcon,
   SvgResDataSourceIcon,
   SvgResDataSourceRootIcon,
+  SvgResDimensionIcon,
   SvgResFieldIcon,
   SvgResFolderIcon,
+  SvgResMeasureIcon,
   SvgResSchemaIcon,
   SvgResSqlDatasetIcon,
   SvgResSqlFieldIcon,

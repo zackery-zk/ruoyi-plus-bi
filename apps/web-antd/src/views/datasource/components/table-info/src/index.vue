@@ -80,7 +80,7 @@ onMounted(async () => {
 
 <template>
   <BiCardPanel :loading="loading" :panel-loading="panelLoading">
-    <div class="flex flex-col w-full h-full">
+    <div class="flex flex-col w-full h-full p-2">
       <a-tabs :items="items" v-model:active-key="activeKey" />
       <div class="h-full min-h-0 flex-1">
         <a-form layout="inline" v-if="activeKey === 'table'">

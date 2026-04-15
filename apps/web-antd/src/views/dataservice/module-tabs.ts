@@ -4,10 +4,10 @@ import { TabModuleKey } from '@vben/constants';
 
 import DataServiceHome from './components/dataservice-home.vue';
 import {SQLDatasetForm} from './components/sql-dataset-form';
-
 export enum ModuleDataServiceComponentEnum {
-  DATA_SERVICE_HOME = 'data_service_home',
-  SQL_DATASET_FORM = 'sql_dataset_form',
+  DATA_SERVICE_HOME = 'data_service-home',
+  MODEL_DATASET_FORM='model_dataset_form',
+  SQL_DATASET_FORM = 'sql_dataset_form'
 }
 
 

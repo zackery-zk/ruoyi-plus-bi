@@ -5,13 +5,20 @@ export enum ResourceTypeEnum {
   DATA_SOURCE = 'DATA_SOURCE', // 数据源
   DATA_SOURCES = 'DATA_SOURCES', // 数据源目录
 
+  DIMENSION='DIMENSION',//维度字段
   FOLDER = 'FOLDER', // 目录
+  MEASURE='MEASURE',//度量字段
+  MODEL_DATASET='MODEL_DATASET',
 
   PUBLIC_FOLDER = 'PUBLIC_FOLDER', // 公共目录
   SCHEMA='SCHEMA',
-
   SELF_FOLDER = 'SELF_FOLDER', //我的空间
+
+
   SQL_DATASET='SQL_DATASET',//SQL数据集
+
+
+
   SQL_FIELD='SQL_FIELD',// SQL数据集字段
 
 }
@@ -50,6 +57,7 @@ export enum ModuleTypeEnum {
   DATA_SERVICE='DATA_SERVICE',
   DATA_SOURCE = 'DATA_SOURCE',
   DATA_WORKBENCH = 'DATA_WORKBENCH',
+  MODEL_DATASET = 'MODEL_DATASET',
 }
 
 export const ResourceTypeOptions = [

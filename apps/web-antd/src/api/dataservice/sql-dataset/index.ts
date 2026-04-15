@@ -1,6 +1,7 @@
-import type { SqlDatasetForm, SqlDatasetVO, SqlSetQuery } from './model';
+import type { SqlDatasetForm, SqlDatasetVO } from './model';
 
 import type { ID } from '#/api/common';
+import type { SqlSetQuery } from '#/api/core/param';
 import type { QueryResult } from '#/api/core/result';
 import type { JdbcField } from '#/api/metadata/model';
 

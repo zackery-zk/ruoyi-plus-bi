@@ -4,6 +4,7 @@ import type { MenuItemType } from 'antdv-next';
 import type { ResourceVO } from '#/api/resource/model';
 
 import { h, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import {
   ContextMenuKeyEnum,
@@ -16,17 +17,16 @@ import {
 import { PlusOutlined } from '@antdv-next/icons';
 
 import { ModulePage } from '#/components/module-page';
-import { ModuleTabbar } from '#/components/module-tabbar';
 import { useModuleTabbarStore } from '#/store';
 
 import {
   dataserviceModuleDefinition,
   ModuleDataServiceComponentEnum,
 } from './module-tabs';
-
 const moduleTabbarStore = useModuleTabbarStore();
 moduleTabbarStore.registerModule(dataserviceModuleDefinition);
 
+const router = useRouter();
 const modulePageRef = ref();
 
 const items: MenuItemType[] = [
@@ -35,7 +35,7 @@ const items: MenuItemType[] = [
     label: 'SQL数据集',
   },
   {
-    key: 'DATA_MODEL',
+    key: 'MODEL_DATASET',
     label: '数据模型',
   },
   {
@@ -51,12 +51,25 @@ const items: MenuItemType[] = [
 function handleDoubleClick(data: ResourceVO) {
   if (data.resType === ResourceTypeEnum.SQL_DATASET) {
     handleOpenSqlDataset(data);
+  }else if(data.resType === ResourceTypeEnum.MODEL_DATASET){
+    handleOpenModelDataset(data);
   }
 }
 
 function handleOpenSqlDataset(data: ResourceVO) {
   moduleTabbarStore.addTab(TabModuleKey.DATA_SERVICE, {
     componentKey: ModuleDataServiceComponentEnum.SQL_DATASET_FORM,
+    title: data.resAlias || data.resName,
+    resId: data.resId,
+    params: {
+      resId: data.resId,
+    },
+  });
+}
+
+function handleOpenModelDataset(data: ResourceVO) {
+  moduleTabbarStore.addTab(TabModuleKey.DATA_SERVICE, {
+    componentKey: ModuleDataServiceComponentEnum.MODEL_DATASET_FORM,
     title: data.resAlias || data.resName,
     resId: data.resId,
     params: {
@@ -81,6 +94,10 @@ function handleTabEvent(param: any) {
 
 function onClick({ key }: any) {
   switch (key) {
+    case 'MODEL_DATASET': {
+      router.push('/bi/model/datset');
+      break;
+    }
     case 'SQL_DATASET': {
       moduleTabbarStore.addTab(TabModuleKey.DATA_SERVICE, {
         componentKey: ModuleDataServiceComponentEnum.SQL_DATASET_FORM,
@@ -89,15 +106,18 @@ function onClick({ key }: any) {
       break;
     }
   }
+  modulePageRef.value.handleCollspan(true);
 }
 </script>
 
 <template>
   <ModulePage
     :module="ModuleTypeEnum.DATA_SERVICE"
+    :tab-module-key="TabModuleKey.DATA_SERVICE"
     @double-click="handleDoubleClick"
     @click-menu-item="handleClickMenuItem"
     ref="modulePageRef"
+     @tab-event="handleTabEvent"
   >
     <template #toolbar-actions>
       <a-dropdown
@@ -109,9 +129,5 @@ function onClick({ key }: any) {
         <a-button type="primary" :icon="h(PlusOutlined)" />
       </a-dropdown>
     </template>
-    <ModuleTabbar
-      :module-key="TabModuleKey.DATA_SERVICE"
-      @tab-event="handleTabEvent"
-    />
   </ModulePage>
 </template>

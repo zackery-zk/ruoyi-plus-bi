@@ -1,20 +1,29 @@
 <script setup lang="ts">
-import type { ContextMenuKeyEnum, ModuleTypeEnum } from '@vben/constants';
-
 import type { ResourceVO } from '#/api/resource/model';
 
 import { ref } from 'vue';
 
+import {
+  type ContextMenuKeyEnum,
+  type ModuleTypeEnum,
+  TabModuleKey,
+} from '@vben/constants';
+
+import { ModuleTabbar } from '#/components/module-tabbar';
 import ResourceTree from '#/views/resource/resource-tree.vue';
 interface Props {
   module: ModuleTypeEnum;
+  tabModuleKey: TabModuleKey;
 }
 defineProps<Props>();
 
 const emit = defineEmits<{
   (e: 'doubleClick', data: ResourceVO): void;
   (e: 'clickMenuItem', key: ContextMenuKeyEnum, node: ResourceVO): void;
+  (e: 'tabEvent', param: any): void;
 }>();
+
+const collspan = ref<boolean>(false);
 
 function handleDoubleClick(data: ResourceVO) {
   emit('doubleClick', data);
@@ -24,23 +33,38 @@ function handleClickMenuItem(key: ContextMenuKeyEnum, node: ResourceVO) {
 }
 const resourceTreeRef = ref();
 
-const size = ref<string>('15%');
-
-
 function handleReload(resPid: number | string) {
   resourceTreeRef.value.handleReload(null, resPid);
 }
 
+function handleTabEvent(param: any) {
+  emit('tabEvent', param);
+}
+
+function handleCollspan(show:boolean){
+  collspan.value = show;
+}
+
+
 defineExpose({
   handleReload,
+  handleCollspan,
 });
 </script>
 
 <template>
   <div class="w-full h-[calc(100vh-50px)]">
-    <a-splitter>
-      <a-splitter-panel :default-size="size" min="15%" max="40%" collapsible>
+    <a-layout class="w-full h-full" has-sider>
+      <a-layout-sider
+        width="15%"
+        class="border-r border-border bg-background"
+        collapsible
+        theme="light"
+        v-model:collapsed="collspan"
+        collapsed-width="0"
+      >
         <ResourceTree
+          v-show="!collspan"
           :module="module"
           class="h-full w-full bg-background"
           @double-click="handleDoubleClick"
@@ -51,11 +75,15 @@ defineExpose({
             <slot name="toolbar-actions"></slot>
           </template>
         </ResourceTree>
-      </a-splitter-panel>
-      <a-splitter-panel class="min-h-0">
-        <slot></slot>
-      </a-splitter-panel>
-    </a-splitter>
+      </a-layout-sider>
+      <a-layout-content class="demo-content">
+        <ModuleTabbar
+          :module-key="tabModuleKey"
+          @tab-event="handleTabEvent"
+          v-model:collspan="collspan"
+        />
+      </a-layout-content>
+    </a-layout>
   </div>
 </template>
 

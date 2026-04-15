@@ -19,7 +19,7 @@ withDefaults(defineProps<Props>(), {
         variant="borderless"
         :classes="{
           root: 'flex h-full min-h-0 w-full flex-col overflow-hidden',
-          body: 'min-h-0 flex-1 overflow-auto !p-2',
+          body: 'min-h-0 flex-1 overflow-hidden !p-0',
         }"
         :styles="{
           root: {

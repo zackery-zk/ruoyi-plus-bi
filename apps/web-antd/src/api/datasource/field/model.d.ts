@@ -31,7 +31,7 @@ export interface BasicField {
   /**
    * 数据格式
    */
-  dataFormat: string;
+  dataFormat: ID;
 
   /**
    * 字段描述

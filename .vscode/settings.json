@@ -258,5 +258,8 @@
     "tinymce",
     "vitest"
   ],
-  "unocss.disable": true
+  "unocss.disable": true,
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  }
 }

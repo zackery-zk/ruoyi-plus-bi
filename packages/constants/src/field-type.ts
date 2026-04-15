@@ -1,7 +1,6 @@
 
 export enum DataTypeEnum {
   BigDecimal = 'BigDecimal',
-  Bigint = 'Bigint',
   BigInteger='BigInteger',
   Date = 'Date',
   DateTime = 'DateTime',
@@ -67,7 +66,7 @@ export const dataTypeOptions = [
 export const getDataTypeClass = (type: DataTypeEnum): DataTypeClassEnum => {
   switch (type) {
     case DataTypeEnum.BigDecimal:
-    case DataTypeEnum.Bigint:
+    case DataTypeEnum.BigInteger:
     case DataTypeEnum.Double:
     case DataTypeEnum.Float:
     case DataTypeEnum.Integer: {

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { TabModuleKey } from '@vben/constants';
 import type { TabDefinition } from '@vben/types';
 
 import type { IContextMenuItem } from '@vben-core/tabs-ui';
@@ -11,6 +12,8 @@ import { useContentMaximize } from '@vben/hooks';
 
 import { TabsView } from '@vben-core/tabs-ui';
 
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@antdv-next/icons';
+
 import { useModuleTabbarStore } from '#/store/module-tabbar';
 
 defineOptions({
@@ -19,14 +22,20 @@ defineOptions({
 
 const props = defineProps<Props>();
 
-const emit = defineEmits<{ tabEvent: [param: any] }>();
-
+const emit = defineEmits<{
+  (e: 'tabEvent', param: any): void;
+}>();
 interface Props {
-  moduleKey: string;
+  moduleKey: TabModuleKey;
 }
 
 const store = useModuleTabbarStore();
 const { contentIsMaximize, toggleMaximize } = useContentMaximize();
+
+const collspan = defineModel<boolean>('collspan', {
+  required: true,
+  default: () => false,
+});
 
 const workspace = computed(() => store.getWorkspace(props.moduleKey));
 const tabs = computed(() => workspace.value.tabs);
@@ -241,11 +250,23 @@ function handleUnpin(tabLike: { key?: string }) {
   }
   togglePin(tab);
 }
+
+function handleCollspan() {
+  collspan.value = !collspan.value;
+}
 </script>
 
 <template>
   <div class="flex h-full flex-col overflow-hidden bg-card">
-    <div class="flex items-center gap-3 border-b h-[39px]">
+    <div class="flex items-center border-b h-[39px]">
+      <div class="ml-[2px]">
+        <a-button type="text" @click="handleCollspan">
+          <template #icon>
+            <MenuUnfoldOutlined v-if="collspan" />
+            <MenuFoldOutlined v-else />
+          </template>
+        </a-button>
+      </div>
       <TabsView
         :active="activeTabId"
         :context-menus="createContextMenus"

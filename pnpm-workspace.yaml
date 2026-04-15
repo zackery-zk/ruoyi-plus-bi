@@ -24,6 +24,8 @@ catalog:
   '@antdv-next/auto-import-resolver': 1.0.7
   '@antdv-next/happy-work-theme': ^1.0.0
   '@antdv-next/icons': 1.0.5
+  '@antv/x6': ^3.1.7
+  '@antv/x6-vue-shape': ^3.0.2
   '@ast-grep/napi': ^0.42.0
   '@changesets/changelog-github': ^0.6.0
   '@changesets/cli': ^2.30.0
@@ -157,6 +159,7 @@ catalog:
   sass: ^1.98.0
   sass-embedded: ^1.98.0
   secure-ls: ^2.0.0
+  snowflake-id: ^1.1.0
   sortablejs: ^1.15.7
   sql-formatter: ^15.7.2
   stylelint: ^17.5.0

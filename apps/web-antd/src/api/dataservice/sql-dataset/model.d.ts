@@ -158,24 +158,3 @@ export interface DatasetConfig {
   cacheTimeUnit: 'hour' | 'minute' | 'second';
 }
 
-
-export interface SqlSetQuery extends BaseQuery{
-  /**SQL内容 */
-  sqlContent:string;
-}
-
-
-export interface BaseQuery{
-  /**数据源ID */
-  dsId:number | string;
-  /**当前页 */
-  pageNo:number;
-  /**每页大小 */
-  pageSize:number;
-  /**是否获取总行数 */
-  totalRows:boolean;
-  /**参数信息 */
-  params:ParamInfo[];
-
-  outFields:OutputFieldInfo[];
-}

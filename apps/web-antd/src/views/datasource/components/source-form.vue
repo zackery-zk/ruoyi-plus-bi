@@ -210,6 +210,7 @@ onMounted(() => {
 <template>
   <BiCardPanel :loading="loading" :panel-loading="panelLoading">
     <a-form
+      class="!p-2"
       ref="formRef"
       label-placement="left"
       :model="model"

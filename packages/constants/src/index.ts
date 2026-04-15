@@ -3,6 +3,7 @@ export * from './data-format'
 export * from './datasource'
 export * from './dict-enum';
 export * from './field-type'
+export * from './model-dataset';
 export * from './param-type'
 export * from './resource';
 export * from '@vben-core/shared/constants';
